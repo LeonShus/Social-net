@@ -1,0 +1,12 @@
+@import "./common/c1-styles/s1-sass/variables";
+
+.contentContainer{
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rebeccapurple;
+  margin: 10px;
+  background-color: $secondaryBackground;
+  border-radius: 15px;
+}

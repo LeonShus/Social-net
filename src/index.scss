@@ -7,5 +7,13 @@
 }
 
 body{
-  background-color: $mainBackground;
+  background-color: $primaryBackground;
+  color: $secondaryColor;
+  a{
+    text-decoration: none;
+    color: $secondaryColor;
+  }
+  a:hover{
+    color: $primaryColor;
+  }
 }

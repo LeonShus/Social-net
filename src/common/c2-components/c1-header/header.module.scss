@@ -1,4 +1,8 @@
+@import "../../c1-styles/s1-sass/variables";
+
 .container{
   min-height: 10px;
-  background-color: blue;
+  background-color: $secondaryBackground;
+  display: flex;
+  justify-content: center;
 }
