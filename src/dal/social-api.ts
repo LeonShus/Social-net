@@ -1,4 +1,5 @@
 import axios from "axios"
+import {UserType} from "../bll/b2-reducers/r3-users/users-reducer";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
@@ -20,9 +21,22 @@ export const authAPI = {
     }
 }
 
+export const usersAPI = {
+    getUsers(currentPage:number = 1, numberOfUser:number = 10){
+        return instance.get<UsersResponseType>("users",{params: {page: currentPage, count: numberOfUser}})
+    },
+}
+
+//Typization
 
 export type AuthResponseType<T> = {
     resultCode: number
     messages: string[]
     data: T
+}
+
+export type UsersResponseType = {
+    items: UserType[]
+    totalCount:number
+    error: string | null
 }
