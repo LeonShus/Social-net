@@ -1,12 +1,12 @@
-import React from 'react';
-import './App.css';
+import React from "react"
+import "./App.css"
+import {Header} from "./common/c2-components/c1-header/header";
 
-function App() {
-  return (
-      <div>
-        hello
-      </div>
-  );
+export const App = () => {
+    return (
+        <div>
+            <Header/>
+            APP
+        </div>
+    )
 }
-
-export default App;
