@@ -1,18 +1,25 @@
-import React from "react"
+import React, {useEffect} from "react"
 import styles from "./profile-page.module.scss"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../bll/b1-store/store";
 import {Navigate, useParams} from "react-router-dom";
+import {setUserProfile} from "../../../bll/b2-reducers/r2-profile/profile-reducer";
 
 
 export const ProfilePage = () => {
 
+    const dispatch = useDispatch()
     const isAuth = useSelector<RootStateType, boolean>(state => state.login.isAuth)
 
     let {userId} = useParams()
     let userIdNumber = Number(userId)
 
-    console.log(userIdNumber)
+
+    useEffect(() => {
+        if(isAuth){
+            dispatch(setUserProfile(userIdNumber))
+        }
+    }, [userId])
 
 
 

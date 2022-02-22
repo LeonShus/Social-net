@@ -24,7 +24,7 @@ export const App = () => {
     return (
         <HashRouter>
             <div>
-                {!isFetching && <Preloader/>}
+                {isFetching && <Preloader/>}
                 <Header/>
                 <div className={styles.contentContainer}>
                     <Routes>
