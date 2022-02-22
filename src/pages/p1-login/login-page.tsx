@@ -3,12 +3,13 @@ import styles from "./login-page.module.scss"
 import {CustomInput} from "../../common/c2-components/c3-input/CustomInput";
 import {CustomButton} from "../../common/c2-components/c4-button/CustomButton";
 import {CustomCheckbox} from "../../common/c2-components/c5-checkbox/CustomCheckbox";
+import {Title} from "../../common/c2-components/c6-title/title";
 
 
 export const LoginPage = () => {
     return(
         <div className={styles.container}>
-
+            <Title titleText={"Sing In"}/>
             <form>
                 <CustomInput
                     labelText={"Login"}
