@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import {combineReducers} from "redux";
 import {loginReducer} from "../b2-reducers/r1-login/login-reducer";
 import {profileReducer} from "../b2-reducers/r2-profile/profile-reducer";
 import {usersReducer} from "../b2-reducers/r3-users/users-reducer";

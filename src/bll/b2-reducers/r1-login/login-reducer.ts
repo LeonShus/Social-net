@@ -53,6 +53,21 @@ export const checkAuthUser = () => async (dispatch: Dispatch) => {
     }
 }
 
+export const singInUser = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
+    try {
+        const res = await authAPI.login(email, password, rememberMe)
+
+        if (res.data.resultCode === ResponseResultCode.Success) {
+            dispatch(setAuthorizedUser({authorizedUser: {id: res.data.data.userId, email: "", login: ""}}))
+        } else {
+            console.log(res.data.messages)
+        }
+    } catch (e) {
+        //@ts-ignore
+        console.log(e, {...e})
+    }
+}
+
 export const logoutUser = () => async (dispatch: Dispatch) => {
     try {
         const res = await authAPI.logout()

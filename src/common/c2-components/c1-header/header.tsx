@@ -16,19 +16,19 @@ export const Header = () => {
         dispatch(logoutUser())
     }
 
-    return(
+    return (
         <header className={styles.container}>
             <Nav/>
 
             {isAuth &&
-                <div>
-                    {ownerName}
-                    <CustomButton
-                        onClick={logout}
-                    >
-                        Logout
-                    </CustomButton>
-                </div>
+            <div>
+                {ownerName}
+                <CustomButton
+                    onClick={logout}
+                >
+                    Logout
+                </CustomButton>
+            </div>
             }
 
         </header>

@@ -6,16 +6,23 @@ import {CustomCheckbox} from "../../common/c2-components/c5-checkbox/CustomCheck
 import {Title} from "../../common/c2-components/c6-title/title";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {useDispatch, useSelector} from "react-redux";
+import {singInUser} from "../../bll/b2-reducers/r1-login/login-reducer";
+import {RootStateType} from "../../bll/b1-store/store";
+import {Navigate} from "react-router-dom";
 
 
 export const LoginPage = () => {
 
+    const dispatch = useDispatch()
+    const isAuth = useSelector<RootStateType, boolean>(state => state.login.isAuth)
+    const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
 
     const formik = useFormik({
         initialValues: {
             email: "",
             password: "",
-            remember: false
+            rememberMe: false
         },
         validationSchema: Yup.object({
             email: Yup.string()
@@ -25,10 +32,15 @@ export const LoginPage = () => {
                 .required("Required"),
         }),
         onSubmit: (values) => {
-            let {email, password, remember} = values
-            console.log(email, password, remember)
+            let {email, password, rememberMe} = values
+
+            dispatch(singInUser(email, password, rememberMe))
         },
     });
+
+    if (isAuth) {
+        return <Navigate to={`/profile/${ownerUserId}`}/>
+    }
 
     return (
         <div className={styles.container}>
@@ -51,11 +63,11 @@ export const LoginPage = () => {
                     {...formik.getFieldProps("password")}
                 />
                 <CustomCheckbox
-                    {...formik.getFieldProps("remember")}
+                    {...formik.getFieldProps("rememberMe")}
                 >
                     Remember Me
                 </CustomCheckbox>
-                <CustomButton>
+                <CustomButton type={"submit"}>
                     Sing in
                 </CustomButton>
             </form>
