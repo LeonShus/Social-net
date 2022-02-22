@@ -1,0 +1,9 @@
+@import "../../common/c1-styles/s1-sass/variables";
+
+.container{
+  border: 2px solid red;
+  padding: 14px;
+  background-color: $secondaryBackground;
+  border-radius: 10px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+}
