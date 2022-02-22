@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../bll/b1-store/store";
 import {Navigate, useParams} from "react-router-dom";
 import {setUserProfile} from "../../../bll/b2-reducers/r2-profile/profile-reducer";
+import {ProfileInfo} from "./p1-profile-info/profile-info";
 
 
 export const ProfilePage = () => {
@@ -28,7 +29,7 @@ export const ProfilePage = () => {
     }
     return (
         <div className={styles.container}>
-            profile
+            <ProfileInfo/>
         </div>
     )
 }
