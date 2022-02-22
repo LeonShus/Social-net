@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../../bll/b1-store/store";
 import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
 import {Preloader} from "../../../../common/c2-components/c7-preloader/preloader";
-import { CustomAccordion } from "../p2-accordion/accordion";
+import { ContactsAccordion } from "../p2-contacts-accordion/accordion";
 
 
 
@@ -28,7 +28,7 @@ export const ProfileInfo = () => {
                 status
             </div>
 
-            <CustomAccordion/>
+            <ContactsAccordion/>
 
         </div>
     )

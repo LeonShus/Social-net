@@ -5,10 +5,10 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import {useSelector} from "react-redux";
 import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
 import {RootStateType} from "../../../../bll/b1-store/store";
-import {Box} from "@mui/material";
+import Box from "@mui/material/Box";
 
 
-export const CustomAccordion = () => {
+export const ContactsAccordion = () => {
 
     const profile = useSelector<RootStateType, ProfileDataType>(state => state.profile.profile)
 
@@ -55,7 +55,7 @@ export const CustomAccordion = () => {
                 <AccordionSummary
                     aria-controls="panel1a-content"
                     sx={{
-                        div:{display: "flex", justifyContent: "center"}
+                        div: {display: "flex", justifyContent: "center"}
                     }}
                 >
                     Contacts
