@@ -15,6 +15,7 @@ import {Navigate} from "react-router-dom";
 export const LoginPage = () => {
 
     const dispatch = useDispatch()
+    const isFetching = useSelector<RootStateType, boolean>(state => state.app.isFetchingApp)
     const isAuth = useSelector<RootStateType, boolean>(state => state.login.isAuth)
     const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
 
@@ -67,7 +68,10 @@ export const LoginPage = () => {
                 >
                     Remember Me
                 </CustomCheckbox>
-                <CustomButton type={"submit"}>
+                <CustomButton 
+                    type={"submit"}
+                    disabled={isFetching}
+                >
                     Sing in
                 </CustomButton>
             </form>

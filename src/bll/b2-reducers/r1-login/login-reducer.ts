@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
 import {authAPI, ResponseResultCode} from "../../../dal/social-api";
+import {setIsFetchingApp} from "../app/app-reducer";
 
 type AuthorizedUserType = {
     id: number
@@ -36,6 +37,7 @@ export const {setAuthorizedUser, setIsAuth} = slice.actions
 
 export const checkAuthUser = () => async (dispatch: Dispatch) => {
     try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
         const res = await authAPI.authMe()
 
         if (res.data.messages.length > 0) {
@@ -49,12 +51,13 @@ export const checkAuthUser = () => async (dispatch: Dispatch) => {
         //@ts-ignore
         console.log(e, {...e})
     } finally {
-
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
     }
 }
 
 export const singInUser = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
         const res = await authAPI.login(email, password, rememberMe)
 
         if (res.data.resultCode === ResponseResultCode.Success) {
@@ -65,11 +68,14 @@ export const singInUser = (email: string, password: string, rememberMe: boolean)
     } catch (e) {
         //@ts-ignore
         console.log(e, {...e})
+    } finally {
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
     }
 }
 
 export const logoutUser = () => async (dispatch: Dispatch) => {
     try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
         const res = await authAPI.logout()
 
         if (res.data.resultCode === ResponseResultCode.Success) {
@@ -81,5 +87,7 @@ export const logoutUser = () => async (dispatch: Dispatch) => {
     } catch (e) {
         //@ts-ignore
         console.log(e, {...e})
+    } finally {
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
     }
 }

@@ -4,9 +4,11 @@ import {profileReducer} from "../b2-reducers/r2-profile/profile-reducer";
 import {usersReducer} from "../b2-reducers/r3-users/users-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk"
+import {appReducer} from "../b2-reducers/app/app-reducer";
 
 
 const rootReducer = combineReducers({
+    app: appReducer,
     login: loginReducer,
     profile: profileReducer,
     users: usersReducer

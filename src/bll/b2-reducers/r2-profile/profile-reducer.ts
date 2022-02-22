@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PhotosType} from "../r3-users/users-reducer";
 
 export type ProfileContacts = {
@@ -29,7 +29,9 @@ const slice = createSlice({
     name: "profile",
     initialState,
     reducers: {
+        setProfile(state, action: PayloadAction){
 
+        }
     }
 })
 
