@@ -60,6 +60,11 @@ export const usersAPI = {
 
 //Typization
 
+export enum ResponseResultCode {
+    Success,
+    Error,
+}
+
 export type ResponseType<T> = {
     resultCode: number
     messages: string[]
