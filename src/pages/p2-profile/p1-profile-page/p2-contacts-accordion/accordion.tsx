@@ -21,6 +21,7 @@ export const ContactsAccordion = () => {
         if (web && url) {
             let teg =
                 <Box
+                    key={web}
                     sx={{
                         marginBottom: "10px",
                     }}>
