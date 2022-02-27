@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PhotosType} from "../r3-users/users-reducer";
 import {Dispatch} from "redux";
-import {profileAPI} from "../../../dal/social-api";
+import {profileAPI, ResponseResultCode} from "../../../dal/social-api";
 import {setIsFetchingApp} from "../app/app-reducer";
 
 export type ProfileContacts = {
@@ -62,6 +62,22 @@ export const setUserProfile = (userId: number) => async (dispatch: Dispatch) => 
         //@ts-ignore
         console.log(e, {...e})
     } finally {
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
+    }
+}
+
+export const updateOwnStatus = (status: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
+        const res = await profileAPI.updateProfileStatus(status)
+
+        if(res.data.resultCode === ResponseResultCode.Success){
+            dispatch(setUserStatus({status}))
+        }
+    } catch (e) {
+        //@ts-ignore
+        console.log(e, {...e})
+    }finally {
         dispatch(setIsFetchingApp({isFetchingApp: false}))
     }
 }

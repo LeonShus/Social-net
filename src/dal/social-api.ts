@@ -28,7 +28,7 @@ export const profileAPI = {
         return instance.get<ProfileDataType>(`profile/${userId}`)
     },
     updateProfileInfo(profileInfo: Omit<ProfileDataType, "photos">) {
-        return instance.put<ResponseType<{}>>("profile",profileInfo)
+        return instance.put<ResponseType<{}>>("profile", profileInfo)
     },
     getProfileStatus(userId: number) {
         return instance.get<string>(`profile/status/${userId}`)
