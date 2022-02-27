@@ -25,7 +25,8 @@ export type ProfileDataType = {
 }
 
 const initialState = {
-    profile: {} as ProfileDataType
+    profile: {} as ProfileDataType,
+    status: ""
 }
 
 type ProfileInitStateType = typeof initialState
@@ -36,23 +37,27 @@ const slice = createSlice({
     reducers: {
         setProfile(state: ProfileInitStateType, action: PayloadAction<{ profile: ProfileDataType }>) {
             state.profile = action.payload.profile
+        },
+        setUserStatus(state: ProfileInitStateType, action: PayloadAction<{ status: string }>){
+            state.status = action.payload.status
         }
     }
 })
 
 export const profileReducer = slice.reducer
 
-export const {setProfile} = slice.actions
+export const {setProfile, setUserStatus} = slice.actions
 
 //THUNK
 
 export const setUserProfile = (userId: number) => async (dispatch: Dispatch) => {
     try {
         dispatch(setIsFetchingApp({isFetchingApp: true}))
-        const res = await profileAPI.getUserProfile(userId)
+        const resProfile = await profileAPI.getUserProfile(userId)
+        const resStatus = await profileAPI.getProfileStatus(userId)
 
-        console.log(res)
-        dispatch(setProfile({profile: res.data}))
+        dispatch(setProfile({profile: resProfile.data}))
+        dispatch(setUserStatus({status: resStatus.data}))
     } catch (e) {
         //@ts-ignore
         console.log(e, {...e})

@@ -12,9 +12,9 @@ export const ProfileInfo = () => {
 
     const dispatch = useDispatch()
     const profile = useSelector<RootStateType, ProfileDataType>(state => state.profile.profile)
+    const userStatus = useSelector<RootStateType, string>(state => state.profile.status)
 
 
-    console.log(profile)
     if(!profile.userId){
         return <Preloader/>
     }
@@ -25,7 +25,7 @@ export const ProfileInfo = () => {
                 {profile.fullName}
             </div>
             <div className={styles.statusContainer}>
-                status
+                {userStatus}
             </div>
 
             <ContactsAccordion/>
