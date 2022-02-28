@@ -14,6 +14,7 @@ export const ProfileInfo = () => {
     const userStatus = useSelector<RootStateType, string>(state => state.profile.status)
     const profileId = useSelector<RootStateType, number>(state => state.profile.profile.userId)
     const ownerUser = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
+    const aboutUser = useSelector<RootStateType, string>(state => state.profile.profile.aboutMe)
 
 
     if (!profile.userId) {
@@ -34,6 +35,10 @@ export const ProfileInfo = () => {
                         {userStatus}
                     </>
                 }
+            </div>
+
+            <div className={styles.aboutMe}>
+                {aboutUser}
             </div>
 
             <ContactsAccordion/>

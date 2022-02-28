@@ -1,0 +1,11 @@
+@import "../../../../common/c1-styles/s1-sass/mixins";
+@import "../../../../common/c1-styles/s1-sass/variables";
+
+.container {
+  @include flexContainer(column, center, center);
+  padding: 14px;
+  background-color: $secondaryBackground;
+  border-radius: 10px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+  min-width: 260px;
+}

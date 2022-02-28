@@ -1,0 +1,21 @@
+@import "../../c1-styles/s1-sass/variables";
+
+.container {
+  margin: 0 40px 20px 40px;
+
+  textarea {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    padding: 15px 20px;
+    border: 1px solid #e3e3e3;
+    border-radius: 30px;
+    font-size: 15px;
+    left: -20px;
+
+    &:focus {
+      border: 1px solid $primaryColor;
+      transition: border .4s;
+    }
+  }
+}

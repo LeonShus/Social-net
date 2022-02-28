@@ -17,6 +17,7 @@ export type ProfileContacts = {
 
 export type ProfileDataType = {
     userId: number
+    aboutMe: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -38,15 +39,19 @@ const slice = createSlice({
         setProfile(state: ProfileInitStateType, action: PayloadAction<{ profile: ProfileDataType }>) {
             state.profile = action.payload.profile
         },
-        setUserStatus(state: ProfileInitStateType, action: PayloadAction<{ status: string }>){
+        setUserStatus(state: ProfileInitStateType, action: PayloadAction<{ status: string }>) {
             state.status = action.payload.status
+        },
+        setUserInfoAfterUpdate(state: ProfileInitStateType, action: PayloadAction<Omit<ProfileDataType, "photos">>) {
+            state.profile.contacts = action.payload.contacts
+            state.profile.fullName = action.payload.fullName
         }
     }
 })
 
 export const profileReducer = slice.reducer
 
-export const {setProfile, setUserStatus} = slice.actions
+export const {setProfile, setUserStatus, setUserInfoAfterUpdate} = slice.actions
 
 //THUNK
 
@@ -71,13 +76,29 @@ export const updateOwnStatus = (status: string) => async (dispatch: Dispatch) =>
         dispatch(setIsFetchingApp({isFetchingApp: true}))
         const res = await profileAPI.updateProfileStatus(status)
 
-        if(res.data.resultCode === ResponseResultCode.Success){
+        if (res.data.resultCode === ResponseResultCode.Success) {
             dispatch(setUserStatus({status}))
         }
     } catch (e) {
         //@ts-ignore
         console.log(e, {...e})
-    }finally {
+    } finally {
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
+    }
+}
+
+export const updateOwnProfileInfo = (data: Omit<ProfileDataType, "photos">) => async (dispatch: Dispatch<any>) => {
+    try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
+        const res = await profileAPI.updateProfileInfo(data)
+
+        if (res.data.resultCode === ResponseResultCode.Success) {
+            dispatch(setUserProfile(data.userId))
+        }
+    } catch (e) {
+        //@ts-ignore
+        console.log(e, {...e})
+    } finally {
         dispatch(setIsFetchingApp({isFetchingApp: false}))
     }
 }

@@ -44,11 +44,17 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
                     value={value}
                     onEnter={setNewStatus}
                     onChangeText={changeValue}
+                    autoFocus
                 />
                 <CustomButton
                     onClick={setNewStatus}
                 >
                     Change
+                </CustomButton>
+                <CustomButton
+                    onClick={() => setEditMode(false)}
+                >
+                    Close
                 </CustomButton>
             </div>
             }

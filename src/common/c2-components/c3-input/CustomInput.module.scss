@@ -1,7 +1,8 @@
 @import "../../c1-styles/s1-sass/variables";
 
 .container {
-  margin: 0 40px 25px 40px;
+  margin: 0 40px 35px 40px;
+  position: relative;
 
   .label {
     position: relative;
@@ -29,7 +30,7 @@
     }
   }
   .error {
-    position: relative;
+    position: absolute;
     color: red;
     font-size: 0.8rem;
     letter-spacing: .4px;
