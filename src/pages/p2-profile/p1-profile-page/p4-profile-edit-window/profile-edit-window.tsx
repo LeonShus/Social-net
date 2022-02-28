@@ -65,7 +65,7 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
                 .matches(validUrl, "Enter correct url"),
         }),
         onSubmit: (values) => {
-            console.log(values)
+
             let {name, aboutMe, github, vk, facebook, instagram, twitter, website, youtube, mainLink} = values
             const data: Omit<ProfileDataType, "photos"> = {
                 userId,
