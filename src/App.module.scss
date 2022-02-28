@@ -5,6 +5,5 @@
   min-height: 100vh;
   @include flexContainer(column, center, center);
   margin: 10px;
-  border: 2px solid black
   //box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
 }

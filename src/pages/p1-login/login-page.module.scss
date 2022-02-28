@@ -11,4 +11,12 @@
     @include flexContainer(column, center, center);
     margin-bottom: 12px;
   }
+  .infoContainer{
+    border: 4px solid $primaryBackground;
+    padding: 6px;
+    line-height: 1.7rem;
+    a{
+      color: $primaryColor;
+    }
+  }
 }
