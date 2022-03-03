@@ -21,21 +21,33 @@ export const Header = () => {
     return (
         <header className={styles.container}>
             {/*<Nav/>*/}
-            {isAuth &&
-            <div className={styles.ownContainer}>
-                <Link
-                    to={`/profile/${ownerUserId}`}
-                    className={styles.ownerName}
-                >
-                    {ownerName}
-                </Link>
-                <CustomButton
-                    onClick={logout}
-                    style={{padding: "6px 16px"}}
-                >
-                    Logout
-                </CustomButton>
-            </div>
+            {
+                isAuth &&
+                <div className={styles.ownContainer}>
+                    <Link
+                        to={`/profile/${ownerUserId}`}
+                        className={styles.ownerName}
+                    >
+                        {ownerName}
+                    </Link>
+                    <CustomButton
+                        onClick={logout}
+                        style={{padding: "6px 16px"}}
+                    >
+                        Logout
+                    </CustomButton>
+                </div>
+            }
+            {
+                !isAuth &&
+                <div className={styles.ownContainer}>
+                    <Link
+                        to={`/login`}
+                        className={styles.ownerName}
+                    >
+                        Sing In
+                    </Link>
+                </div>
             }
         </header>
     )

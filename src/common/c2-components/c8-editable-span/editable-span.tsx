@@ -48,11 +48,13 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
                 />
                 <CustomButton
                     onClick={setNewStatus}
+                    style={{marginBottom: "5px"}}
                 >
                     Change
                 </CustomButton>
                 <CustomButton
                     onClick={() => setEditMode(false)}
+
                 >
                     Close
                 </CustomButton>
