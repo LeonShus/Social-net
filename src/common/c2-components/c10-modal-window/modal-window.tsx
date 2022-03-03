@@ -1,12 +1,25 @@
 import React from "react"
 import styles from "./modal-window.module.scss"
 
-export const ModalWindow: React.FC = (props) => {
+type ModalWindowPropsType = {
+    closeModal: () => void
+}
+
+export const ModalWindow: React.FC<ModalWindowPropsType> = (props) => {
     return(
         <div className={styles.modal}>
-            <div className={styles.modalWindow}>
-                {props.children}
+            <div>
+                <button
+                    onClick={props.closeModal}
+                    className={styles.closeBtn}
+                >
+                    &#x2715;
+                </button>
+                <div className={styles.modalWindow}>
+                    {props.children}
+                </div>
             </div>
+
         </div>
     )
 }

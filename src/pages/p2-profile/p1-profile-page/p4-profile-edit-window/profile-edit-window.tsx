@@ -1,4 +1,4 @@
-import React from "react"
+import React, {ChangeEvent} from "react"
 import styles from "./profile-edit-window.module.scss"
 import {ModalWindow} from "../../../../common/c2-components/c10-modal-window/modal-window";
 import {useFormik} from "formik";
@@ -8,7 +8,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../../bll/b1-store/store";
 import {CustomInput} from "../../../../common/c2-components/c3-input/CustomInput";
 import {CustomButton} from "../../../../common/c2-components/c4-button/CustomButton";
-import {ProfileDataType, updateOwnProfileInfo} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
+import {
+    ProfileDataType,
+    updateOwnProfileInfo,
+    uploadProfilePhoto
+} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
 
 type ProfileEditWindowPropsType = {
     closeEdit: () => void
@@ -30,6 +34,11 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
     const contactMainLink = useSelector<RootStateType, string>(state => state.profile.profile.contacts.mainLink)
     const validUrl = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
 
+
+    const uploadPhoto = (event: ChangeEvent<HTMLInputElement>) => {
+        event.currentTarget.files &&
+        dispatch(uploadProfilePhoto(event.currentTarget.files))
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -70,7 +79,7 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
             const data: Omit<ProfileDataType, "photos"> = {
                 userId,
                 aboutMe,
-                fullName : name,
+                fullName: name,
                 lookingForAJob: false,
                 lookingForAJobDescription: "...",
                 contacts: {
@@ -90,9 +99,13 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
     })
 
     return (
-        <ModalWindow>
+        <ModalWindow closeModal={closeEdit}>
             <div className={styles.container}>
+
                 <Title titleText={"Edit Profile"}/>
+
+                <input type="file" onChange={uploadPhoto}/>
+
                 <form onSubmit={formik.handleSubmit}>
                     <CustomInput
                         labelText={"name"}
@@ -156,9 +169,6 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
                     <div className={styles.btnContainer}>
                         <CustomButton type={"submit"}>
                             Edit
-                        </CustomButton>
-                        <CustomButton onClick={closeEdit}>
-                            close
                         </CustomButton>
                     </div>
 

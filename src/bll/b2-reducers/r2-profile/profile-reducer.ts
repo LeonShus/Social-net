@@ -45,13 +45,16 @@ const slice = createSlice({
         setUserInfoAfterUpdate(state: ProfileInitStateType, action: PayloadAction<Omit<ProfileDataType, "photos">>) {
             state.profile.contacts = action.payload.contacts
             state.profile.fullName = action.payload.fullName
+        },
+        changeUserPhotos(state: ProfileInitStateType, action: PayloadAction<{photos: PhotosType }>){
+            state.profile.photos = action.payload.photos
         }
     }
 })
 
 export const profileReducer = slice.reducer
 
-export const {setProfile, setUserStatus, setUserInfoAfterUpdate} = slice.actions
+export const {setProfile, setUserStatus, setUserInfoAfterUpdate, changeUserPhotos} = slice.actions
 
 //THUNK
 
@@ -94,6 +97,22 @@ export const updateOwnProfileInfo = (data: Omit<ProfileDataType, "photos">) => a
 
         if (res.data.resultCode === ResponseResultCode.Success) {
             dispatch(setUserProfile(data.userId))
+        }
+    } catch (e) {
+        //@ts-ignore
+        console.log(e, {...e})
+    } finally {
+        dispatch(setIsFetchingApp({isFetchingApp: false}))
+    }
+}
+
+export const uploadProfilePhoto = (photoObj: FileList) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setIsFetchingApp({isFetchingApp: true}))
+        const res = await profileAPI.updateProfilePhoto(photoObj)
+
+        if(res.data.resultCode === ResponseResultCode.Success){
+            dispatch(changeUserPhotos(res.data.data))
         }
     } catch (e) {
         //@ts-ignore

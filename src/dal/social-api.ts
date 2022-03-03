@@ -1,5 +1,5 @@
 import axios from "axios"
-import {UserType} from "../bll/b2-reducers/r3-users/users-reducer";
+import {PhotosType, UserType} from "../bll/b2-reducers/r3-users/users-reducer";
 import {ProfileDataType} from "../bll/b2-reducers/r2-profile/profile-reducer";
 
 const instance = axios.create({
@@ -36,8 +36,14 @@ export const profileAPI = {
     updateProfileStatus(status: string) {
         return instance.put<ResponseType<{}>>("profile/status", {status})
     },
-    updateProfilePhoto(image: string) {
-        return instance.put<ResponseType<{}>>("profile/photo", {image})
+    updateProfilePhoto(imageObj: FileList) {
+        let filePhoto = new FormData()
+        filePhoto.append("image", imageObj[0])
+        return instance.put<ResponseType<{photos: PhotosType}>>("profile/photo", filePhoto, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
     }
 }
 
