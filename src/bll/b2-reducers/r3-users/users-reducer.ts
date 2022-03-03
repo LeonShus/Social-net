@@ -20,7 +20,7 @@ const initialState = {
     users: [] as UserType[],
     currentPage: 1,
     totalCount: 0,
-    pageCount: 3,
+    pageCount: 12,
 }
 
 type UsersInitialStateType = typeof initialState

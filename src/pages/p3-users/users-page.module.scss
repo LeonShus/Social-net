@@ -1,3 +1,19 @@
+
 .container{
-  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  .usersContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1248px;
+    flex-wrap: wrap;
+    @media (max-width: 644px){
+      flex-direction: column;
+    }
+  }
 }

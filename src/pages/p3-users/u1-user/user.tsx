@@ -27,46 +27,48 @@ export const User = ({userData, followTo, unfollow}: UserPropsType) => {
 
     return (
         <div className={styles.container}>
-
-            <div>
-                <img
-                    className={styles.avatar}
-                    src={userData.photos.large ? userData.photos.large : defaultAvatar}
-                    alt="user-avatar"
-                />
-            </div>
-
-            <div>
+            <div className={styles.contentContainer}>
                 <div>
-                    <Link to={`/profile/${userData.id}`}>
-                        {userData.name}
-                    </Link>
+                    <img
+                        className={styles.avatar}
+                        src={userData.photos.large ? userData.photos.large : defaultAvatar}
+                        alt="user-avatar"
+                    />
                 </div>
-                <div>
-                    {userData.status}
+
+                <div className={styles.aboutUser}>
+                    <div className={styles.userName}>
+                        <Link to={`/profile/${userData.id}`}>
+                            {userData.name}
+                        </Link>
+                    </div>
+                    <div className={styles.userStatus}>
+                        {userData.status ? userData.status : "..."}
+                    </div>
+                </div>
+
+
+                <div className={styles.btnContainer}>
+                    {
+                        userData.followed
+                            ?
+                            <CustomButton
+                                disabled={isFetching}
+                                onClick={unfollowUser}
+                            >
+                                Unfollow
+                            </CustomButton>
+                            :
+                            <CustomButton
+                                disabled={isFetching}
+                                onClick={followToUser}
+                            >
+                                Follow
+                            </CustomButton>
+                    }
                 </div>
             </div>
 
-
-            <div>
-                {
-                    userData.followed
-                        ?
-                        <CustomButton
-                            disabled={isFetching}
-                            onClick={unfollowUser}
-                        >
-                            Unfollow
-                        </CustomButton>
-                        :
-                        <CustomButton
-                            disabled={isFetching}
-                            onClick={followToUser}
-                        >
-                            Follow
-                        </CustomButton>
-                }
-            </div>
         </div>
     )
 }

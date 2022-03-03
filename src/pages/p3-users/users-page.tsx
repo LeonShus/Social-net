@@ -56,9 +56,11 @@ export const UsersPage = () => {
                 pageCount={pageCount}
                 setPageCallback={setPage}
             />
-            <div>
+
+            <div className={styles.usersContainer}>
                 {usersComponents}
             </div>
+
             <Paginator
                 currentPage={currentPage}
                 totalCount={totalCount}
@@ -66,5 +68,6 @@ export const UsersPage = () => {
                 setPageCallback={setPage}
             />
         </div>
+
     )
 }
