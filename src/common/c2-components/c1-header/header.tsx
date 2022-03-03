@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./header.module.scss"
-import {Nav} from "../c2-nav/nav";
+// import {Nav} from "../c2-nav/nav";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../bll/b1-store/store";
 import {CustomButton} from "../c4-button/CustomButton";
@@ -18,10 +18,10 @@ export const Header = () => {
 
     return (
         <header className={styles.container}>
-            <Nav/>
+            {/*<Nav/>*/}
 
             {isAuth &&
-            <div>
+            <div className={styles.ownContainer}>
                 {ownerName}
                 <CustomButton
                     onClick={logout}

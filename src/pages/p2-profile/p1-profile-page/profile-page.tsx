@@ -37,8 +37,10 @@ export const ProfilePage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.editBtnContainer}>
-                <button className={styles.btn} onClick={openEditWindow}>
-                    Edit
+                <button className={styles.editBtn}
+                        onClick={openEditWindow}
+                >
+                    &#x205E;
                 </button>
             </div>
             {editProfile && <ProfileEditWindow closeEdit={closeEditWindow}/>}
