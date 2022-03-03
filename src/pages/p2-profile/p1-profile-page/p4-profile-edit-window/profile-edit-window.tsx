@@ -104,7 +104,19 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
 
                 <Title titleText={"Edit Profile"}/>
 
-                <input type="file" onChange={uploadPhoto}/>
+                <div className={styles.uploadContainer}>
+                    <label
+                        htmlFor="upload-photo"
+                    >
+                        Change Photo
+                    </label>
+                    <input
+                        id={"upload-photo"}
+                        type="file"
+                        className={styles.fileInput}
+                        onChange={uploadPhoto}
+                    />
+                </div>
 
                 <form onSubmit={formik.handleSubmit}>
                     <CustomInput
