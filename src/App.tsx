@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {checkAuthUser} from "./bll/b2-reducers/r1-login/login-reducer";
 import {RootStateType} from "./bll/b1-store/store";
 import {Preloader} from "./common/c2-components/c7-preloader/preloader";
+import {UsersPage} from "./pages/p3-users/users-page";
 
 
 export const App = () => {
@@ -31,6 +32,7 @@ export const App = () => {
                         <Route path={"/"} element={<Navigate to={"/login"}/>}/>
                         <Route path={"/login"} element={<LoginPage/>}/>
                         <Route path={"/profile/:userId"} element={<ProfilePage/>}/>
+                        <Route path={"/users"} element={<UsersPage/>}/>
                     </Routes>
                 </div>
             </div>

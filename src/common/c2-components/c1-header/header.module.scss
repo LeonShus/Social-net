@@ -4,7 +4,12 @@
   min-height: 10px;
   background-color: $secondaryBackground;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  .navContainer{
+    display: flex;
+    padding: 6px;
+    align-items: end;
+  }
   .ownContainer{
     display: flex;
     padding: 6px;

@@ -6,6 +6,7 @@ import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-re
 import {Preloader} from "../../../../common/c2-components/c7-preloader/preloader";
 import {ContactsAccordion} from "../p2-contacts-accordion/accordion";
 import {EditableSpan} from "../../../../common/c2-components/c8-editable-span/editable-span";
+import defaultAvatar from "../../../../common/c3-img/userDefaultAvatar.png"
 
 
 export const ProfileInfo = () => {
@@ -22,24 +23,31 @@ export const ProfileInfo = () => {
     }
     return (
         <div className={styles.container}>
-            <img src={`${profile.photos.large ? profile.photos.large : ""}`} alt="avatar"/>
+            <img src={`${profile.photos.large ? profile.photos.large : defaultAvatar}`} alt="avatar"/>
             <div className={styles.userName}>
                 {profile.fullName}
             </div>
-            <div className={styles.statusContainer}>
-                {profileId === ownerUser
-                    ?
-                    <EditableSpan textValue={userStatus}/>
-                    :
-                    <>
-                        {userStatus}
-                    </>
-                }
-            </div>
+            {
+                userStatus &&
+                <div className={styles.statusContainer}>
+                    {profileId === ownerUser
+                        ?
+                        <EditableSpan textValue={userStatus}/>
+                        :
+                        <>
+                            {userStatus}
+                        </>
+                    }
+                </div>
+            }
 
-            <div className={styles.aboutMe}>
-                {aboutUser}
-            </div>
+            {
+                aboutUser &&
+                <div className={styles.aboutMe}>
+                    {aboutUser}
+                </div>
+            }
+
 
             <ContactsAccordion/>
 
