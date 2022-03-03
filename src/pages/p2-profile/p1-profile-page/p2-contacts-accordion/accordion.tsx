@@ -56,7 +56,10 @@ export const ContactsAccordion = () => {
                 <AccordionSummary
                     aria-controls="panel1a-content"
                     sx={{
-                        div: {display: "flex", justifyContent: "center"}
+                        div: {display: "flex", justifyContent: "center"},
+                        "&:hover": {
+                            color: "#1877F2"
+                        }
                     }}
                 >
                     Contacts

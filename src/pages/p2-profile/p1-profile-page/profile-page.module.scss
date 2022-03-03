@@ -7,14 +7,19 @@
     margin: 10px;
     .editBtn{
       position: relative;
+      cursor: pointer;
       left: 14px;
       top: -16px;
       padding: 6px;
       border: none;
+      color: $secondaryColor;
       //border: 2px solid $primaryColor;
       background-color: $secondaryBackground;
       font-size: 3rem;
       transform: rotate(90deg);
+      &:hover{
+        color: $primaryColor;
+      }
     }
   }
 }

@@ -9,6 +9,13 @@
 
   .uploadContainer{
     margin-bottom: 20px;
+    label{
+      cursor: pointer;
+      &:hover{
+        color: $primaryColor;
+      }
+    }
+
     .fileInput {
       opacity: 0;
       position: absolute;
