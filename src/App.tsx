@@ -18,7 +18,7 @@ export const App = () => {
     const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
 
     useEffect(() => {
-        dispatch(checkAuthUser())
+        dispatch(checkAuthUser({}))
     }, [dispatch, ownerUserId])
 
 

@@ -15,7 +15,7 @@ export const Header = () => {
     const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
 
     const logout = () => {
-        dispatch(logoutUser())
+        dispatch(logoutUser({}))
     }
 
     return (

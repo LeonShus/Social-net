@@ -35,7 +35,7 @@ export const LoginPage = () => {
         onSubmit: (values) => {
             let {email, password, rememberMe} = values
 
-            dispatch(singInUser(email, password, rememberMe))
+            dispatch(singInUser({email, password, rememberMe}))
         },
     });
 
