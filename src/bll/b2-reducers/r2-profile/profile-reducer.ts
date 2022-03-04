@@ -49,6 +49,9 @@ const slice = createSlice({
         changeUserPhotos(state: ProfileInitStateType, action: PayloadAction<{photos: PhotosType }>){
             state.profile.photos = action.payload.photos
         }
+    },
+    extraReducers: builder => {
+
     }
 })
 
