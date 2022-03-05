@@ -24,7 +24,7 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
     }
 
     const setNewStatus = () => {
-        dispatch(updateOwnStatus(value))
+        dispatch(updateOwnStatus({status: value}))
         setEditMode(false)
     }
 

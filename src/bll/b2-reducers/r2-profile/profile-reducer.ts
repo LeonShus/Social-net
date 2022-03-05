@@ -1,7 +1,7 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PhotosType} from "../r3-users/users-reducer";
 import {Dispatch} from "redux";
-import {profileAPI, ResponseResultCode} from "../../../dal/social-api";
+import {authAPI, profileAPI, ResponseResultCode} from "../../../dal/social-api";
 import {setIsFetchingApp} from "../app/app-reducer";
 
 export type ProfileContacts = {
@@ -32,95 +32,115 @@ const initialState = {
 
 type ProfileInitStateType = typeof initialState
 
+
+export const setUserProfile = createAsyncThunk(
+    "profile/setUserProfile",
+    async (param: { userId: number }, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: true}))
+            const resProfile = await profileAPI.getUserProfile(param.userId)
+            const resStatus = await profileAPI.getProfileStatus(param.userId)
+
+            return {profile: resProfile.data, status: resStatus.data}
+        } catch (e) {
+            //@ts-ignore
+            console.log(e, {...e})
+        } finally {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
+        }
+    }
+)
+
+export const updateOwnStatus = createAsyncThunk(
+    "profile/updateOwnStatus",
+    async (param: { status: string }, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: true}))
+            const res = await profileAPI.updateProfileStatus(param.status)
+
+            if (res.data.resultCode === ResponseResultCode.Success) {
+                return {status: param.status}
+            }
+        } catch (e) {
+            //@ts-ignore
+            console.log(e, {...e})
+        } finally {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
+        }
+    }
+)
+
+export const updateOwnProfileInfo = createAsyncThunk(
+    "profile/updateOwnProfileInfo",
+    async (param: { data: Omit<ProfileDataType, "photos"> }, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: true}))
+            const res = await profileAPI.updateProfileInfo(param.data)
+
+            if (res.data.resultCode === ResponseResultCode.Success) {
+                return param.data
+            }
+        } catch (e) {
+            //@ts-ignore
+            console.log(e, {...e})
+        } finally {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
+        }
+    }
+)
+
+export const uploadProfilePhoto = createAsyncThunk(
+    "profile/uploadProfilePhoto",
+    async (param: { photoObj: FileList }, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: true}))
+            const res = await profileAPI.updateProfilePhoto(param.photoObj)
+
+
+            if (res.data.resultCode === ResponseResultCode.Success) {
+                return res.data.data
+            }
+        } catch (e) {
+            //@ts-ignore
+            console.log(e, {...e})
+        } finally {
+            thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
+        }
+    }
+)
+
+
+
 const slice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setProfile(state: ProfileInitStateType, action: PayloadAction<{ profile: ProfileDataType }>) {
-            state.profile = action.payload.profile
-        },
-        setUserStatus(state: ProfileInitStateType, action: PayloadAction<{ status: string }>) {
-            state.status = action.payload.status
-        },
-        setUserInfoAfterUpdate(state: ProfileInitStateType, action: PayloadAction<Omit<ProfileDataType, "photos">>) {
-            state.profile.contacts = action.payload.contacts
-            state.profile.fullName = action.payload.fullName
-        },
-        changeUserPhotos(state: ProfileInitStateType, action: PayloadAction<{photos: PhotosType }>){
-            state.profile.photos = action.payload.photos
-        }
     },
     extraReducers: builder => {
-
+        builder.addCase(setUserProfile.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.profile = action.payload.profile
+                state.status = action.payload.status
+            }
+        })
+        builder.addCase(updateOwnStatus.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.status = action.payload.status
+            }
+        })
+        builder.addCase(updateOwnProfileInfo.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.profile.contacts = action.payload.contacts
+                state.profile.fullName = action.payload.fullName
+                state.profile.aboutMe = action.payload.aboutMe
+            }
+        })
+        builder.addCase(uploadProfilePhoto.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.profile.photos = action.payload.photos
+            }
+        })
     }
 })
 
 export const profileReducer = slice.reducer
-
-export const {setProfile, setUserStatus, setUserInfoAfterUpdate, changeUserPhotos} = slice.actions
-
-//THUNK
-
-export const setUserProfile = (userId: number) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setIsFetchingApp({isFetchingApp: true}))
-        const resProfile = await profileAPI.getUserProfile(userId)
-        const resStatus = await profileAPI.getProfileStatus(userId)
-
-        dispatch(setProfile({profile: resProfile.data}))
-        dispatch(setUserStatus({status: resStatus.data}))
-    } catch (e) {
-        //@ts-ignore
-        console.log(e, {...e})
-    } finally {
-        dispatch(setIsFetchingApp({isFetchingApp: false}))
-    }
-}
-
-export const updateOwnStatus = (status: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setIsFetchingApp({isFetchingApp: true}))
-        const res = await profileAPI.updateProfileStatus(status)
-
-        if (res.data.resultCode === ResponseResultCode.Success) {
-            dispatch(setUserStatus({status}))
-        }
-    } catch (e) {
-        //@ts-ignore
-        console.log(e, {...e})
-    } finally {
-        dispatch(setIsFetchingApp({isFetchingApp: false}))
-    }
-}
-
-export const updateOwnProfileInfo = (data: Omit<ProfileDataType, "photos">) => async (dispatch: Dispatch<any>) => {
-    try {
-        dispatch(setIsFetchingApp({isFetchingApp: true}))
-        const res = await profileAPI.updateProfileInfo(data)
-
-        if (res.data.resultCode === ResponseResultCode.Success) {
-            dispatch(setUserProfile(data.userId))
-        }
-    } catch (e) {
-        //@ts-ignore
-        console.log(e, {...e})
-    } finally {
-        dispatch(setIsFetchingApp({isFetchingApp: false}))
-    }
-}
-
-export const uploadProfilePhoto = (photoObj: FileList) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setIsFetchingApp({isFetchingApp: true}))
-        const res = await profileAPI.updateProfilePhoto(photoObj)
-
-        if(res.data.resultCode === ResponseResultCode.Success){
-            dispatch(changeUserPhotos(res.data.data))
-        }
-    } catch (e) {
-        //@ts-ignore
-        console.log(e, {...e})
-    } finally {
-        dispatch(setIsFetchingApp({isFetchingApp: false}))
-    }
-}

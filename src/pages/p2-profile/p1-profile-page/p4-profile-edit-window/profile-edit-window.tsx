@@ -37,7 +37,7 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
 
     const uploadPhoto = (event: ChangeEvent<HTMLInputElement>) => {
         event.currentTarget.files &&
-        dispatch(uploadProfilePhoto(event.currentTarget.files))
+        dispatch(uploadProfilePhoto({photoObj: event.currentTarget.files}))
     }
 
     const formik = useFormik({
@@ -93,7 +93,7 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
                     mainLink
                 }
             }
-            dispatch(updateOwnProfileInfo(data))
+            dispatch(updateOwnProfileInfo({data}))
             closeEdit()
         }
     })

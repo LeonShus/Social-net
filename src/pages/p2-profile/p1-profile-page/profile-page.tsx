@@ -25,7 +25,7 @@ export const ProfilePage = () => {
     }
 
     useEffect(() => {
-        dispatch(setUserProfile(userIdNumber))
+        dispatch(setUserProfile({userId: userIdNumber}))
     }, [userId])
 
 

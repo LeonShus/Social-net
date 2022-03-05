@@ -84,18 +84,18 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder.addCase(checkAuthUser.fulfilled, (state, action) => {
-            if (action.payload?.authorizedUser) {
+            if (action.payload) {
                 state.authorizedUser = action.payload.authorizedUser
                 state.isAuth = action.payload.isAuth
             }
         })
         builder.addCase(singInUser.fulfilled, (state, action) => {
-            if (action.payload?.authorizedUser) {
+            if (action.payload) {
                 state.authorizedUser = action.payload.authorizedUser
             }
         })
         builder.addCase(logoutUser.fulfilled, (state, action) => {
-            if (action.payload?.authorizedUser) {
+            if (action.payload) {
                 state.authorizedUser = action.payload.authorizedUser
                 state.isAuth = action.payload.isAuth
             }
