@@ -20,6 +20,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "@types/uuid": "^8.3.4",
     "@types/yup": "^0.29.13",
     "axios": "^0.26.0",
     "formik": "^2.2.9",
@@ -33,6 +34,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "typescript": "^4.4.2",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.11"
   },

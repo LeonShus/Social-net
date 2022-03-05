@@ -1,6 +1,8 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authAPI, ResponseResultCode} from "../../../dal/social-api";
-import {setIsFetchingApp} from "../app/app-reducer";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import {authAPI, ResponseResultCode} from "../../../dal/social-api"
+import {setIsFetchingApp, setPopupMessages} from "../app/app-reducer"
+
+import {v1} from "uuid"
 
 type AuthorizedUserType = {
     id: number
@@ -22,6 +24,13 @@ export const checkAuthUser = createAsyncThunk(
 
             if (res.data.messages.length > 0) {
                 console.log(res.data.messages)
+                thunkAPI.dispatch(setPopupMessages({popupMessage: {
+                        type: "error",
+                        message: `${res.data.messages[0]}`,
+                        id: v1()
+                    }}
+
+                ))
             } else {
                 return {authorizedUser: res.data.data, isAuth: true}
             }

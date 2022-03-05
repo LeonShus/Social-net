@@ -9,6 +9,7 @@ import {checkAuthUser} from "./bll/b2-reducers/r1-login/login-reducer";
 import {RootStateType} from "./bll/b1-store/store";
 import {Preloader} from "./common/c2-components/c7-preloader/preloader";
 import {UsersPage} from "./pages/p3-users/users-page";
+import {SnackBar} from "./common/c2-components/c12-snack-bar/snack-bar";
 
 
 export const App = () => {
@@ -25,6 +26,7 @@ export const App = () => {
     return (
         <HashRouter>
             <div>
+                <SnackBar/>
                 {isFetching && <Preloader/>}
                 <Header/>
                 <div className={styles.contentContainer}>

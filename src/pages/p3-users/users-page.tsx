@@ -25,15 +25,15 @@ export const UsersPage = () => {
     }
 
     const followTo = (userId: number) => {
-        dispatch(followToUser(userId))
+        dispatch(followToUser({userId}))
     }
     const unfollow = (userId: number) => {
-        dispatch(unfollowToUser(userId))
+        dispatch(unfollowToUser({userId}))
     }
 
 
     useEffect(() => {
-        dispatch(getUsers())
+        dispatch(getUsers({}))
     }, [dispatch, currentPage])
 
     const usersComponents = users.map(el => {
