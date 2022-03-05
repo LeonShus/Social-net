@@ -1,8 +1,8 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {PhotosType} from "../r3-users/users-reducer";
-import {Dispatch} from "redux";
-import {authAPI, profileAPI, ResponseResultCode} from "../../../dal/social-api";
-import {setIsFetchingApp} from "../app/app-reducer";
+import {profileAPI, ResponseResultCode} from "../../../dal/social-api";
+import {setIsFetchingApp, setPopupMessages} from "../app/app-reducer";
+import {v1} from "uuid";
 
 export type ProfileContacts = {
     github: string
@@ -30,8 +30,6 @@ const initialState = {
     status: ""
 }
 
-type ProfileInitStateType = typeof initialState
-
 
 export const setUserProfile = createAsyncThunk(
     "profile/setUserProfile",
@@ -42,9 +40,14 @@ export const setUserProfile = createAsyncThunk(
             const resStatus = await profileAPI.getProfileStatus(param.userId)
 
             return {profile: resProfile.data, status: resStatus.data}
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -61,9 +64,14 @@ export const updateOwnStatus = createAsyncThunk(
             if (res.data.resultCode === ResponseResultCode.Success) {
                 return {status: param.status}
             }
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -80,9 +88,14 @@ export const updateOwnProfileInfo = createAsyncThunk(
             if (res.data.resultCode === ResponseResultCode.Success) {
                 return param.data
             }
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -100,9 +113,14 @@ export const uploadProfilePhoto = createAsyncThunk(
             if (res.data.resultCode === ResponseResultCode.Success) {
                 return res.data.data
             }
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -110,12 +128,10 @@ export const uploadProfilePhoto = createAsyncThunk(
 )
 
 
-
 const slice = createSlice({
     name: "profile",
     initialState,
-    reducers: {
-    },
+    reducers: {},
     extraReducers: builder => {
         builder.addCase(setUserProfile.fulfilled, (state, action) => {
             if (action.payload) {

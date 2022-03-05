@@ -1,7 +1,8 @@
-import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {setIsFetchingApp} from "../app/app-reducer";
-import {authAPI, ResponseResultCode, usersAPI} from "../../../dal/social-api";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {setIsFetchingApp, setPopupMessages} from "../app/app-reducer";
+import {ResponseResultCode, usersAPI} from "../../../dal/social-api";
 import {RootStateType} from "../../b1-store/store";
+import {v1} from "uuid";
 
 export type PhotosType = {
     small: null | string
@@ -40,9 +41,14 @@ export const getUsers = createAsyncThunk(
 
             return {users: res.data.items, totalCount: res.data.totalCount}
 
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -61,15 +67,19 @@ export const followToUser = createAsyncThunk(
                 return {userId: param.userId, isFollow: true}
             }
 
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
     }
 )
-
 
 
 export const unfollowToUser = createAsyncThunk(
@@ -84,71 +94,19 @@ export const unfollowToUser = createAsyncThunk(
                 return {userId: param.userId, isFollow: false}
             }
 
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
     }
 )
-
-
-
-// export const unfollowToUser1 = (userId: number) => async (dispatch: Dispatch) => {
-//     try {
-//         dispatch(setIsFetchingApp({isFetchingApp: true}))
-//
-//         let res = await usersAPI.unfollowUser(userId)
-//
-//         if (res.data.resultCode === ResponseResultCode.Success) {
-//             dispatch(followUserHandler({userId, isFollow: false}))
-//         }
-//
-//     } catch (e) {
-//         //@ts-ignore
-//         console.log(e, {...e})
-//     } finally {
-//         dispatch(setIsFetchingApp({isFetchingApp: false}))
-//     }
-// }
-
-// export const followToUser1 = (userId: number) => async (dispatch: Dispatch) => {
-//     try {
-//         dispatch(setIsFetchingApp({isFetchingApp: true}))
-//
-//         let res = await usersAPI.followToUser(userId)
-//
-//         if (res.data.resultCode === ResponseResultCode.Success) {
-//             dispatch(followUserHandler({userId, isFollow: true}))
-//         }
-//
-//     } catch (e) {
-//         //@ts-ignore
-//         console.log(e, {...e})
-//     } finally {
-//         dispatch(setIsFetchingApp({isFetchingApp: false}))
-//     }
-// }
-
-// export const getUsers1 = () => async (dispatch: Dispatch, getState: () => RootStateType) => {
-//     try{
-//         dispatch(setIsFetchingApp({isFetchingApp: true}))
-//         const currentPage = getState().users.currentPage
-//         const pageCount = getState().users.pageCount
-//
-//
-//         const res = await usersAPI.getUsers(currentPage,pageCount)
-//
-//         dispatch(setUsers({users: res.data.items, totalCount: res.data.totalCount}))
-//
-//     } catch (e) {
-//         //@ts-ignore
-//         console.log(e, {...e})
-//     } finally {
-//         dispatch(setIsFetchingApp({isFetchingApp: false}))
-//     }
-// }
 
 
 const slice = createSlice({
@@ -169,14 +127,14 @@ const slice = createSlice({
         builder.addCase(followToUser.fulfilled, (state, action) => {
 
             let index = state.users.findIndex(u => u.id === action.payload?.userId)
-            if(action.payload){
+            if (action.payload) {
                 state.users[index] = {...state.users[index], followed: action.payload.isFollow}
             }
         })
         builder.addCase(unfollowToUser.fulfilled, (state, action) => {
 
             let index = state.users.findIndex(u => u.id === action.payload?.userId)
-            if(action.payload){
+            if (action.payload) {
                 state.users[index] = {...state.users[index], followed: action.payload.isFollow}
             }
         })

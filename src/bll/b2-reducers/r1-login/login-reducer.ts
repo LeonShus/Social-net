@@ -23,21 +23,20 @@ export const checkAuthUser = createAsyncThunk(
             const res = await authAPI.authMe()
 
             if (res.data.messages.length > 0) {
-                console.log(res.data.messages)
-                thunkAPI.dispatch(setPopupMessages({popupMessage: {
-                        type: "error",
-                        message: `${res.data.messages[0]}`,
-                        id: v1()
-                    }}
-
-                ))
+                // console.log(res.data.messages)
             } else {
                 return {authorizedUser: res.data.data, isAuth: true}
             }
 
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                    popupMessage: {
+                        type: "error",
+                        message: `${e.response.data.error}`,
+                        id: v1()
+                    }
+                }
+            ))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -55,11 +54,22 @@ export const singInUser = createAsyncThunk(
             if (res.data.resultCode === ResponseResultCode.Success) {
                 return {authorizedUser: {id: res.data.data.userId, email: "", login: ""}}
             } else {
-                console.log(res.data.messages)
+                thunkAPI.dispatch(setPopupMessages({
+                    popupMessage: {
+                        type: "error",
+                        message: `${res.data.messages}`,
+                        id: v1()
+                    }
+                }))
             }
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
@@ -76,11 +86,22 @@ export const logoutUser = createAsyncThunk(
             if (res.data.resultCode === ResponseResultCode.Success) {
                 return {authorizedUser: {login: "", email: "", id: 0}, isAuth: false}
             } else {
-                console.log(res.data.messages)
+                thunkAPI.dispatch(setPopupMessages({
+                    popupMessage: {
+                        type: "error",
+                        message: `${res.data.messages}`,
+                        id: v1()
+                    }
+                }))
             }
-        } catch (e) {
-            //@ts-ignore
-            console.log(e, {...e})
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
             thunkAPI.dispatch(setIsFetchingApp({isFetchingApp: false}))
         }
