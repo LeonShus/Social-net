@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from "react"
 import styles from "./profile-page.module.scss"
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {setUserProfile} from "../../../bll/b2-reducers/r2-profile/profile-reducer";
 import {ProfileInfo} from "./p1-profile-info/profile-info";
 import {Posts} from "./p3-posts/posts";
 import {ProfileEditWindow} from "./p4-profile-edit-window/profile-edit-window";
-import {RootStateType} from "../../../bll/b1-store/store";
+import {useAction} from "../../../bll/b4-hooks/hooks";
+import { loginSelectors } from "../../../bll/b3-selectors/s2-login";
+import { profileActions } from "../../../bll/b2-reducers/r2-profile";
+
+
 
 
 export const ProfilePage = () => {
 
-    const dispatch = useDispatch()
-    const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
+    const ownerUserId = useSelector(loginSelectors.selectOwnerUserId)
     const [editProfile, setEditProfile] = useState(false)
     let {userId} = useParams()
     let userIdNumber = Number(userId)
+
+    const {setUserProfile} = useAction(profileActions)
 
     const openEditWindow = () => {
         setEditProfile(true)
@@ -25,7 +29,7 @@ export const ProfilePage = () => {
     }
 
     useEffect(() => {
-        dispatch(setUserProfile({userId: userIdNumber}))
+        setUserProfile({userId: userIdNumber})
     }, [userId])
 
 

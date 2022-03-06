@@ -2,8 +2,8 @@ import React, {useState} from "react"
 import styles from "./editable-span.module.scss"
 import {CustomInput} from "../c3-input/CustomInput";
 import {CustomButton} from "../c4-button/CustomButton";
-import {updateOwnStatus} from "../../../bll/b2-reducers/r2-profile/profile-reducer";
-import {useDispatch} from "react-redux";
+import { profileActions } from "../../../bll/b2-reducers/r2-profile";
+import {useAction} from "../../../bll/b4-hooks/hooks";
 
 type EditableSpanPropsType = {
     textValue: string
@@ -11,7 +11,8 @@ type EditableSpanPropsType = {
 
 export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
 
-    const dispatch = useDispatch()
+    const {updateOwnStatus} = useAction(profileActions)
+
     const [value, setValue] = useState("")
     const [editMode, setEditMode] = useState(false)
 
@@ -24,7 +25,7 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
     }
 
     const setNewStatus = () => {
-        dispatch(updateOwnStatus({status: value}))
+        updateOwnStatus({status: value})
         setEditMode(false)
     }
 
@@ -34,7 +35,7 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
             <span
                 onClick={editModeOn}
             >
-                    {textValue}
+                    {textValue || "..."}
                 </span>
             }
             {editMode &&
@@ -54,7 +55,6 @@ export const EditableSpan = ({textValue}: EditableSpanPropsType) => {
                 </CustomButton>
                 <CustomButton
                     onClick={() => setEditMode(false)}
-
                 >
                     Close
                 </CustomButton>

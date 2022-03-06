@@ -1,21 +1,28 @@
 import React from "react"
 import styles from "./profile-info.module.scss"
 import {useSelector} from "react-redux";
-import {RootStateType} from "../../../../bll/b1-store/store";
-import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
 import {Preloader} from "../../../../common/c2-components/c7-preloader/preloader";
 import {ContactsAccordion} from "../p2-contacts-accordion/accordion";
 import {EditableSpan} from "../../../../common/c2-components/c8-editable-span/editable-span";
 import defaultAvatar from "../../../../common/c3-img/userDefaultAvatar.png"
-
+import {profileSelectors} from "../../../../bll/b3-selectors/s1-profile"
+import {loginSelectors} from "../../../../bll/b3-selectors/s2-login";
 
 export const ProfileInfo = () => {
 
-    const profile = useSelector<RootStateType, ProfileDataType>(state => state.profile.profile)
-    const userStatus = useSelector<RootStateType, string>(state => state.profile.status)
-    const profileId = useSelector<RootStateType, number>(state => state.profile.profile.userId)
-    const ownerUser = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
-    const aboutUser = useSelector<RootStateType, string>(state => state.profile.profile.aboutMe)
+    const {
+        selectProfile,
+        selectProfileStatus,
+        selectProfileUserId,
+        selectProfileUserAboutMe
+    } = profileSelectors
+    const {selectOwnerUserId} = loginSelectors
+
+    const profile = useSelector(selectProfile)
+    const userStatus = useSelector(selectProfileStatus)
+    const profileId = useSelector(selectProfileUserId)
+    const ownerUser = useSelector(selectOwnerUserId)
+    const aboutUser = useSelector(selectProfileUserAboutMe)
 
 
     if (!profile.userId) {
@@ -27,19 +34,18 @@ export const ProfileInfo = () => {
             <div className={styles.userName}>
                 {profile.fullName}
             </div>
-            {
-                userStatus &&
-                <div className={styles.statusContainer}>
-                    {profileId === ownerUser
-                        ?
-                        <EditableSpan textValue={userStatus}/>
-                        :
-                        <>
-                            {userStatus}
-                        </>
-                    }
-                </div>
-            }
+
+            <div className={styles.statusContainer}>
+                {profileId === ownerUser
+                    ?
+                    <EditableSpan textValue={userStatus}/>
+                    :
+                    <div>
+                        {userStatus || "..."}
+                    </div>
+                }
+            </div>
+
 
             {
                 aboutUser &&

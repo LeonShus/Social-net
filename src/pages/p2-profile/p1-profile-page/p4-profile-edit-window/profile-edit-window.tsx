@@ -4,15 +4,14 @@ import {ModalWindow} from "../../../../common/c2-components/c10-modal-window/mod
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {Title} from "../../../../common/c2-components/c6-title/title";
-import {useDispatch, useSelector} from "react-redux";
-import {RootStateType} from "../../../../bll/b1-store/store";
+import {useSelector} from "react-redux";
 import {CustomInput} from "../../../../common/c2-components/c3-input/CustomInput";
 import {CustomButton} from "../../../../common/c2-components/c4-button/CustomButton";
-import {
-    ProfileDataType,
-    updateOwnProfileInfo,
-    uploadProfilePhoto
-} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
+import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
+import {useAction} from "../../../../bll/b4-hooks/hooks";
+import {profileActions} from "../../../../bll/b2-reducers/r2-profile";
+import {profileSelectors} from "../../../../bll/b3-selectors/s1-profile";
+
 
 type ProfileEditWindowPropsType = {
     closeEdit: () => void
@@ -20,24 +19,39 @@ type ProfileEditWindowPropsType = {
 
 export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
 
-    const dispatch = useDispatch()
-    const userId = useSelector<RootStateType, number>(state => state.profile.profile.userId)
-    const userFullName = useSelector<RootStateType, string>(state => state.profile.profile.fullName)
-    const userAboutMe = useSelector<RootStateType, string>(state => state.profile.profile.aboutMe)
-    const contactGitHub = useSelector<RootStateType, string>(state => state.profile.profile.contacts.github)
-    const contactVk = useSelector<RootStateType, string>(state => state.profile.profile.contacts.vk)
-    const contactFacebook = useSelector<RootStateType, string>(state => state.profile.profile.contacts.facebook)
-    const contactInstagram = useSelector<RootStateType, string>(state => state.profile.profile.contacts.instagram)
-    const contactTwitter = useSelector<RootStateType, string>(state => state.profile.profile.contacts.twitter)
-    const contactWebsite = useSelector<RootStateType, string>(state => state.profile.profile.contacts.website)
-    const contactYoutube = useSelector<RootStateType, string>(state => state.profile.profile.contacts.youtube)
-    const contactMainLink = useSelector<RootStateType, string>(state => state.profile.profile.contacts.mainLink)
+    const {
+        selectProfileUserId,
+        selectProfileUserFullName,
+        selectProfileUserAboutMe,
+        selectProfileContactGitHub,
+        selectProfileContactVk,
+        selectProfileContactFacebook,
+        selectProfileContactInstagram,
+        selectProfileContactTwitter,
+        selectProfileContactWebsite,
+        selectProfileContactYoutube,
+        selectProfileContactMainLink
+    } = profileSelectors
+
+    const {uploadProfilePhoto, updateOwnProfileInfo} = useAction(profileActions)
+
+    const userId = useSelector(selectProfileUserId)
+    const userFullName = useSelector(selectProfileUserFullName)
+    const userAboutMe = useSelector(selectProfileUserAboutMe)
+    const contactGitHub = useSelector(selectProfileContactGitHub)
+    const contactVk = useSelector(selectProfileContactVk)
+    const contactFacebook = useSelector(selectProfileContactFacebook)
+    const contactInstagram = useSelector(selectProfileContactInstagram)
+    const contactTwitter = useSelector(selectProfileContactTwitter)
+    const contactWebsite = useSelector(selectProfileContactWebsite)
+    const contactYoutube = useSelector(selectProfileContactYoutube)
+    const contactMainLink = useSelector(selectProfileContactMainLink)
     const validUrl = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
 
 
     const uploadPhoto = (event: ChangeEvent<HTMLInputElement>) => {
         event.currentTarget.files &&
-        dispatch(uploadProfilePhoto({photoObj: event.currentTarget.files}))
+        uploadProfilePhoto({photoObj: event.currentTarget.files})
     }
 
     const formik = useFormik({
@@ -93,7 +107,7 @@ export const ProfileEditWindow = ({closeEdit}: ProfileEditWindowPropsType) => {
                     mainLink
                 }
             }
-            dispatch(updateOwnProfileInfo({data}))
+            updateOwnProfileInfo({data})
             closeEdit()
         }
     })
