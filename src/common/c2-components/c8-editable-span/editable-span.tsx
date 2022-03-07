@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import styles from "./editable-span.module.scss"
 import {CustomInput} from "../c3-input/CustomInput";
 import {CustomButton} from "../c4-button/CustomButton";
-import { profileActions } from "../../../bll/b2-reducers/r2-profile";
+import { profileActions } from "../../../bll/b2-reducers/r4-actions";
 import {useAction} from "../../../bll/b4-hooks/hooks";
 
 type EditableSpanPropsType = {

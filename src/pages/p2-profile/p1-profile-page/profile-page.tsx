@@ -7,7 +7,7 @@ import {Posts} from "./p3-posts/posts";
 import {ProfileEditWindow} from "./p4-profile-edit-window/profile-edit-window";
 import {useAction} from "../../../bll/b4-hooks/hooks";
 import { loginSelectors } from "../../../bll/b3-selectors/s2-login";
-import { profileActions } from "../../../bll/b2-reducers/r2-profile";
+import { profileActions } from "../../../bll/b2-reducers/r4-actions";
 
 
 

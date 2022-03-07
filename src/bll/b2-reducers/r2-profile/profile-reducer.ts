@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {PhotosType} from "../r3-users/users-reducer";
-import {profileActions} from "./"
+import {profileActions} from "../r4-actions"
 
 const {updateOwnProfileInfo, updateOwnStatus, setUserProfile, uploadProfilePhoto} = profileActions
 

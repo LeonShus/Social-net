@@ -1,40 +1,44 @@
 import React, {useEffect} from "react"
 import styles from "./users-page.module.scss"
-import {useDispatch, useSelector} from "react-redux";
-import {RootStateType} from "../../bll/b1-store/store";
-import {
-    followToUser,
-    getUsers,
-    setCurrentPage,
-    unfollowToUser,
-    UserType
-} from "../../bll/b2-reducers/r3-users/users-reducer";
+import {useSelector} from "react-redux";
 import {User} from "./u1-user/user";
 import {Paginator} from "../../common/c2-components/c11-paginator/paginator";
+import {useAction} from "../../bll/b4-hooks/hooks";
+import {usersSelectors} from "../../bll/b3-selectors/s3-users";
+import { userAsyncActions, usersActions } from "../../bll/b2-reducers/r4-actions";
+
 
 export const UsersPage = () => {
 
-    const dispatch = useDispatch()
-    const users = useSelector<RootStateType, UserType[]>(state => state.users.users)
-    const currentPage = useSelector<RootStateType, number>(state => state.users.currentPage)
-    const totalCount = useSelector<RootStateType, number>(state => state.users.totalCount)
-    const pageCount = useSelector<RootStateType, number>(state => state.users.pageCount)
+    const {
+        getUsersCurrentPage,
+        getUsersPageCount,
+        getUsersTotalCount,
+        getUsersList
+    } = usersSelectors
+    const {getUsers, unfollowToUser, followToUser} = useAction(userAsyncActions)
+    const {setCurrentPage} = useAction(usersActions)
+
+    const users = useSelector(getUsersList)
+    const currentPage = useSelector(getUsersCurrentPage)
+    const totalCount = useSelector(getUsersTotalCount)
+    const pageCount = useSelector(getUsersPageCount)
 
     const setPage = (page: number) => {
-        dispatch(setCurrentPage({currentPage: page}))
+        setCurrentPage({currentPage: page})
     }
 
     const followTo = (userId: number) => {
-        dispatch(followToUser({userId}))
+        followToUser({userId})
     }
     const unfollow = (userId: number) => {
-        dispatch(unfollowToUser({userId}))
+        unfollowToUser({userId})
     }
 
 
     useEffect(() => {
-        dispatch(getUsers({}))
-    }, [dispatch, currentPage])
+        getUsers({})
+    }, [currentPage])
 
     const usersComponents = users.map(el => {
         return (

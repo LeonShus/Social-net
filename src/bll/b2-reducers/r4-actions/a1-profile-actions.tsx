@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {setIsFetchingApp, setPopupMessages} from "../app/app-reducer";
 import {profileAPI, ResponseResultCode} from "../../../dal/social-api";
 import {v1} from "uuid";
-import {ProfileDataType} from "./profile-reducer";
+import {ProfileDataType} from "../r2-profile/profile-reducer";
 
 export const setUserProfile = createAsyncThunk(
     "profile/setUserProfile",

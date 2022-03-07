@@ -9,7 +9,7 @@ import {CustomInput} from "../../../../common/c2-components/c3-input/CustomInput
 import {CustomButton} from "../../../../common/c2-components/c4-button/CustomButton";
 import {ProfileDataType} from "../../../../bll/b2-reducers/r2-profile/profile-reducer";
 import {useAction} from "../../../../bll/b4-hooks/hooks";
-import {profileActions} from "../../../../bll/b2-reducers/r2-profile";
+import {profileActions} from "../../../../bll/b2-reducers/r4-actions";
 import {profileSelectors} from "../../../../bll/b3-selectors/s1-profile";
 
 
