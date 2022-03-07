@@ -5,7 +5,7 @@ import defaultAvatar from "../../../common/c3-img/userDefaultAvatar.png"
 import {Link} from "react-router-dom";
 import {CustomButton} from "../../../common/c2-components/c4-button/CustomButton";
 import {useSelector} from "react-redux";
-import {RootStateType} from "../../../bll/b1-store/store";
+import {appSelectors} from "../../../bll/b3-selectors/s4-app";
 
 type UserPropsType = {
     userData: UserType
@@ -15,7 +15,9 @@ type UserPropsType = {
 
 export const User = ({userData, followTo, unfollow}: UserPropsType) => {
 
-    const isFetching = useSelector<RootStateType, boolean>(state => state.app.isFetchingApp)
+    const {getAppIsFetching} = appSelectors
+
+    const isFetching = useSelector(getAppIsFetching)
 
     const followToUser = () => {
         followTo(userData.id)
