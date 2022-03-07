@@ -6,15 +6,16 @@ import {CustomCheckbox} from "../../common/c2-components/c5-checkbox/CustomCheck
 import {Title} from "../../common/c2-components/c6-title/title";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {useDispatch, useSelector} from "react-redux";
-import {singInUser} from "../../bll/b2-reducers/r1-login/login-reducer";
+import {useSelector} from "react-redux";
 import {RootStateType} from "../../bll/b1-store/store";
 import {Navigate} from "react-router-dom";
+import {useAction} from "../../bll/b4-hooks/hooks";
+import {loginActions} from "../../bll/b2-reducers/r4-actions";
 
 
 export const LoginPage = () => {
 
-    const dispatch = useDispatch()
+    const {singInUser} = useAction(loginActions)
     const isFetching = useSelector<RootStateType, boolean>(state => state.app.isFetchingApp)
     const isAuth = useSelector<RootStateType, boolean>(state => state.login.isAuth)
     const ownerUserId = useSelector<RootStateType, number>(state => state.login.authorizedUser.id)
@@ -35,7 +36,7 @@ export const LoginPage = () => {
         onSubmit: (values) => {
             let {email, password, rememberMe} = values
 
-            dispatch(singInUser({email, password, rememberMe}))
+            singInUser({email, password, rememberMe})
         },
     });
 
